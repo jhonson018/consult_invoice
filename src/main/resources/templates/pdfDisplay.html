@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>PDF Display</title>
+</head>
+<body>
+<h1>PDF Display</h1>
+<div th:if="${base64Image}">
+    <img th:src="'data:image/png;base64,' + ${base64Image}" alt="PDF Image" />
+</div>
+<div th:if="${error}">
+    <p th:text="${error}"></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>PDF List</title>
+    <style>
+        .pdf-thumbnail {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+        }
+
+        .pdf-thumbnail img {
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .pdf-thumbnail:hover img {
+            transform: scale(1.1);
+        }
+
+        .pdf-thumbnail .zoom-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            font-size: 2em;
+            color: rgba(255, 255, 255, 0.8);
+            pointer-events: none;
+        }
+
+        .pdf-thumbnail:hover .zoom-icon {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            width: 80%;
+            margin: 0 auto;
+        }
+        .pdf-thumbnail {
+            display: inline-block;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .pdf-thumbnail img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>PDF Files for User ID: <span th:text="${userId}"></span></h1>
+    <div th:if="${pdfFiles}">
+        <div th:each="pdfFile : ${pdfFiles}" class="pdf-thumbnail">
+            <a th:href="@{'/pdf/display?fileName=' + ${pdfFile.name}}">
+                <img th:src="@{'/pdf/displayThumbnail?fileName=' + ${pdfFile.name}}" alt="PDF Thumbnail"/>
+                <div class="zoom-icon">&#128269;</div> <!-- Icono de lupa -->
+            </a>
+            <p th:text="${pdfFile.name}"></p>
+        </div>
+    </div>
+    <div th:if="${error}" class="error">
+        <p th:text="${error}"></p>
+    </div>
+</div>
+
+</body>
+</html>
